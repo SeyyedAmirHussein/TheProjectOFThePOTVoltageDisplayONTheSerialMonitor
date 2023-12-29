@@ -1,24 +1,25 @@
-// The Project For The Measurement OF The Temperature .
+// The Project OF The POT Voltage Display ON The Serial Monitor .
 
-// In this program, We want to Measure the Temperature and then Display it on the LCD Screen .
+// The Main Code OF The Project OF The POT Voltage Display ON The Serial Monitor . . INO . .
 
-// The Main Code OF The Project For The Measurement OF The Temperature . .INO .
-
-
+// In this program, We want to Show a POT Voltage ON The LCD Screen .
 
 
-#include <LiquidCrystal.h>                                                                                              // Library Required for this Project .
 
 
+#include <LiquidCrystal.h>
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;                                                           // Definition of Different Bases .
-LiquidCrystal LCD (rs, en, d4, d5, d6, d7);                                                                          // Definition of Different Bases .
+int LEDPin = 7 , Button = A3;
+float val = 0;
+LiquidCrystal LCD (rs, en, d4, d5, d6, d7);                                                                        // Definition of Different Bases .
 
 
 void setup () {
 
 
-  Serial.begin (9600);                                                                                          // Introducing the Series .
-  LCD.begin (16, 2);                                                                                           // Introducing LCD Resolution .
+Serial.begin (9600);                                                                                          // Introducing The Series .
+pinMode (LEDPin, OUTPUT);                                                                                    // Introducing The OUTPUT Pin .
+LCD.begin (16, 2);                                                                                          // Introducing LCD Resolution .
 
 
 }
@@ -27,14 +28,14 @@ void setup () {
 void loop () {
 
 
-  delay (2000);                                                                                        // Running the Delay Function (2 Seconds) . :
-  float DataCensor = analogRead (A0);                                                                 // Read Data . :
-  float Temp = DataCensor * 0.48828125;                                                              // Set Value to Temp .
-  Serial.print (" Temp : ");                                                                        // Show the Desired Message .
-  Serial.print (Temp);                                                                             // Show the Desired Message .
-  LCD.setCursor (0, 0);                                                                           // To run Regularly and Display the OUTPUT Below.
-  LCD.print (" Temp : ");                                                                        // Show the Desired Message .
-  LCD.print (Temp);                                                                             // Show the Desired Message .
+val = analogRead (Button);                                                                         // Get Value From Base Button .
+float FO = val * 5 / 1023;                                                                        // Set Value to FO .
+Serial.print (" POT Voltage : ");                                                                // Print The Desired Message .
+Serial.println (FO);                                                                            // Show The Desired Value .
+analogWrite (LEDPin, FO);
+LCD.setCursor (0, 1);                                                                         // To run regularly and display the OUTPUT below .
+LCD.print (" POT Voltage : ");                                                               // Show The Desired Message .
+LCD.print (FO);                                                                             // Show The Desired Message .
 
 
 }
